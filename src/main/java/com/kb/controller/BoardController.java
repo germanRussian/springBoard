@@ -2,10 +2,12 @@ package com.kb.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kb.domain.BoardVO;
@@ -41,13 +43,23 @@ public class BoardController {
 
 	}
 	
+	//글 등록
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(BoardVO board, RedirectAttributes rttr) {
-
+	public String register(MultipartFile[] upfile, BoardVO board) {
+		for(MultipartFile multi : upfile) {
+			log.info(multi.getOriginalFilename());
+			log.info(multi.getSize());
+		}
 		service.register(board);
-		
-		return "redirect:/board/list";
+		return "redirect:/board/list"; 
 	}
+	
+//	public String register(BoardVO board, RedirectAttributes rttr) {
+//
+//		service.register(board);
+//		
+//		return "redirect:/board/list";
+//	}
 	
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	//public void get(int bno) {

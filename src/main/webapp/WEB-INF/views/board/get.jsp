@@ -29,6 +29,9 @@
 								<label>내용</label><textarea name="content" id="content" class="form-control" style="resize:none;" required="required">${board.content}</textarea>
 							</div>
 							<div class="form-group">
+								<label>첨부파일</label><input type="file" name="upfile" id="upfile" class="" value="" >
+							</div>
+							<div class="form-group">
 								<label>작성자</label><input type="text" name="writer" id="writer" class="form-control" value="${board.writer}" required="required">
 							</div>
 							<div class="form-group">

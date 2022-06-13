@@ -1,12 +1,16 @@
 package com.kb.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kb.domain.BoardVO;
+import com.kb.domain.AttachFileDTO;
+import com.kb.domain.BoardAttachVO;
 import com.kb.domain.BoardCriteria;
+import com.kb.mapper.BoardAttachMapper;
 import com.kb.mapper.BoardMapper;
 
 import lombok.AllArgsConstructor;
@@ -22,30 +26,51 @@ public class BoardServiceImpl implements BoardService {
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper mapper;
 	
+	@Setter(onMethod_ = @Autowired)
+	private BoardAttachMapper attachMapper;	
+
 
 	@Override
 	public void register(BoardVO board) {
 		log.info("register");
 		mapper.insert(board);
+
+		Iterator<BoardAttachVO> it = board.getAttachList().iterator();
+		while(it.hasNext()) {
+			BoardAttachVO attachVO = it.next();
+			attachVO.setBno(board.getBno());
+			attachMapper.insert(attachVO);
+		}
 	}
 
+	
+	
 	@Override
 	public BoardVO get(int bno) {
-		return mapper.read(bno);
+		 BoardVO vo =  mapper.read(bno);
+		 List<BoardAttachVO> attachList = attachMapper.read(bno);
+		 vo.setAttachList(attachList);
+		 return vo;
 	}
 
+	
+	
 	@Override
 	public boolean modify(BoardVO board) {
 		// TODO Auto-generated method stub
 		return mapper.update(board) == 1;
 	}
 
+	
+	
 	@Override
 	public boolean remove(int bno) {
 		// TODO Auto-generated method stub
 		return mapper.delete(bno) == 1;
 	}
 
+	
+	
 	@Override
 	public List<BoardVO> getList() {
 		log.info("getList...................");
@@ -53,6 +78,8 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getList();
 	}
 
+	
+	
 	@Override
 	public List<BoardVO> getListWithPaging(BoardCriteria cri) {
 		log.info("getList...................");
@@ -60,6 +87,8 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getListWithPaging(cri);
 	}
 
+	
+	
 	@Override
 	public int getListWithCnt(BoardCriteria cri) {
 		log.info("getListWithCnt...................");

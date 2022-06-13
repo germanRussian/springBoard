@@ -20,19 +20,29 @@
 					</p>
 
 					<div class="panel-body">
-						<form id="frm" method="post" action="">
+						<form id="frm" method="post" action="" enctype="multipart/form-data">
 						<input type="hidden" name="bno" id="bno" value="${board.bno}">
+						
 							<div class="form-group">
-								<label>제목</label><input type="text" name="title" id="title" class="form-control" value="${board.title}" required="required">
+								<label>제목</label><input type="text" name="title" id="title" class="form-control" value="${board.title}" >
 							</div>
 							<div class="form-group">
-								<label>내용</label><textarea name="content" id="content" class="form-control" style="resize:none;" required="required">${board.content}</textarea>
+								<label>내용</label><textarea name="content" id="content" class="form-control" style="resize:none;" >${board.content}</textarea>
+								<img src="" alt="첨부이미지"><!-- display?fileName= -->
+								<c:forEach items="${board.attachList}" var="attach">
+								1
+								
+								</c:forEach>
 							</div>
+							
+							
 							<div class="form-group">
-								<label>첨부파일</label><input type="file" name="upfile" id="upfile" class="" value="" >
+								<label>첨부파일_수정</label><input type="file" name="upfile" id="upfile" class="" value="" multiple="multiple" accept="">
 							</div>
+							
+							
 							<div class="form-group">
-								<label>작성자</label><input type="text" name="writer" id="writer" class="form-control" value="${board.writer}" required="required">
+								<label>작성자</label><input type="text" name="writer" id="writer" class="form-control" value="${board.writer}" >
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-default">글수정</button>

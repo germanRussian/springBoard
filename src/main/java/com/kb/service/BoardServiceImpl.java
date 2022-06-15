@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kb.domain.BoardVO;
 import com.kb.domain.AttachFileDTO;
@@ -31,6 +32,7 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
+	@Transactional
 	public void register(BoardVO board) {
 		log.info("register");
 		mapper.insert(board);
@@ -56,17 +58,36 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Override
+	@Transactional
 	public boolean modify(BoardVO board) {
-		// TODO Auto-generated method stub
-		return mapper.update(board) == 1;
+		
+		mapper.update(board);
+		attachMapper.delete(board);
+		
+		Iterator<BoardAttachVO> it = board.getAttachList().iterator();
+		while(it.hasNext()) {
+			BoardAttachVO attachVO = it.next();
+			attachVO.setBno(board.getBno());
+			attachMapper.insert(attachVO);
+		}
+		
+		return true;
 	}
+	
+	
 
 	
 	
 	@Override
 	public boolean remove(int bno) {
-		// TODO Auto-generated method stub
 		return mapper.delete(bno) == 1;
+	}
+	
+	@Override
+	@Transactional
+	public boolean remove(BoardVO board) {
+		attachMapper.delete(board);
+		return mapper.delete(board.getBno()) == 1;
 	}
 
 	

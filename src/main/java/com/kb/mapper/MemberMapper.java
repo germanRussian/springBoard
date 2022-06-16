@@ -15,10 +15,14 @@ public interface MemberMapper {
 	
 	public MemberVO read(int num);
 	
+	public MemberVO readLogin(String userid);
+	
 	public int update(MemberVO member);
 	
 	public int delete(int num);
 
 	public int getListWithCnt(MemberCriteria cri);
+	
+	
 
 }

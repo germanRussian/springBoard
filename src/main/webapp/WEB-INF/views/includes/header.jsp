@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,8 +70,8 @@
 					class="zmdi zmdi-hc-lg zmdi-search"></span>
 			</button>
 
-			<a href="http://localhost/board/list" class="navbar-brand">
-				<span class="brand-icon"><i class="fa fa-gg"></i></span> <span
+			<a href="http://localhost/board/list" class="navbar-brand"> <span
+				class="brand-icon"><i class="fa fa-gg"></i></span> <span
 				class="brand-name">Infinity</span>
 			</a>
 		</div>
@@ -206,13 +208,14 @@
 				<div class="media-body">
 					<div class="foldable">
 						<h5>
-							<a href="javascript:void(0)" class="username">John Doe</a>
+							<a href="javascript:void(0)" class="username"><%-- <sec:authentication
+									property="principal.member.uname" /> --%></a>
 						</h5>
 						<ul>
 							<li class="dropdown"><a href="javascript:void(0)"
 								class="dropdown-toggle usertitle" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"> <small>Web
-										Developer</small> <span class="caret"></span>
+								aria-haspopup="true" aria-expanded="false"> <small>
+										관리자 </small> <span class="caret"></span>
 							</a>
 								<ul class="dropdown-menu animated flipInY">
 									<li><a class="text-color" href="/index.html"> <span
@@ -225,9 +228,32 @@
 											class="m-r-xs"><i class="fa fa-gear"></i></span> <span>Settings</span>
 									</a></li>
 									<li role="separator" class="divider"></li>
-									<li><a class="text-color" href="logout.html"> <span
-											class="m-r-xs"><i class="fa fa-power-off"></i></span> <span>Home</span>
-									</a></li>
+
+
+									<!-- 로그 아웃 설정 -->
+									<li><a onclick="logout_btn();" class="text-color" href="#"
+										id="logout1"> <span class="m-r-xs"><i
+												class="fa fa-power-off"></i></span> <span>LogOut</span>
+									</a>
+
+										<form action="/customLogout" method="post" id="logout2">
+											<input type="hidden" name="${_csrf.parameterName}"
+												value="${_csrf.token}" />
+
+										</form> <script>
+											/* $(document).ready(function() {
+												$("#logout1").on("click", function() {
+													console.log("1231313");
+													$("#logout2").submit();
+													
+												})
+											}) */
+											function logout_btn() {
+												$("#logout2").submit();
+											}
+										</script></li>
+
+
 								</ul></li>
 						</ul>
 					</div>
@@ -244,17 +270,19 @@
 					<li class="has-submenu"><a href="javascript:void(0)"
 						class="submenu-toggle"> <i
 							class="menu-icon zmdi zmdi-view-dashboard zmdi-hc-lg"></i> <span
-							class="menu-text">Dashboards</span> <i
+							class="menu-text">스마트학습방</span> <i
 							class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>
 					</a>
 						<ul class="submenu">
-							<li><a href="index.html"><span class="menu-text">Dashboard
-										1</span></a></li>
-							<li><a href="dashboard.2.html"><span class="menu-text">Dashboard
-										2</span></a></li>
-							<li><a href="dashboard.3.html"><span class="menu-text">Dashboard
-										3</span></a></li>
+							<li><a href="/member/list"><span class="menu-text">Member
+										List</span></a></li>
+							<li><a href="/board/list"><span class="menu-text">Board
+										List</span></a></li>
+
 						</ul></li>
+
+
+
 
 					<li class="has-submenu"><a href="javascript:void(0)"
 						class="submenu-toggle"> <i

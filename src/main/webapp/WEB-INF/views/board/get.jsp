@@ -22,6 +22,8 @@
 
 		<div class="panel-body">
 			<form id="frm" method="post" action="" enctype="multipart/form-data">
+			<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
 				<input type="hidden" name="bno" id="bno" value="${board.bno}">
 
 

@@ -8,5 +8,9 @@
 </head>
 <body>
 <h1>Member page</h1>
+<form action="/customLogout" method="post">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+<button>Log Out</button>
+</form>
 </body>
 </html>

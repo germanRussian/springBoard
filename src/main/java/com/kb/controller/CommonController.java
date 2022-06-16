@@ -1,5 +1,7 @@
 package com.kb.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +23,14 @@ public class CommonController {
 	@GetMapping("/test/member")
 	public void doMember() {
 		log.info("로그인한 회원만 접속이 가능합니다.");
+		
+		
 	}
 	
 	@GetMapping("/test/admin")
 	public void doAdmin() {
 		log.info("로그인한 회원중 관리자만 접속이 가능합니다.");
+		
 	}
 
 	@GetMapping("/error_page/err_403")

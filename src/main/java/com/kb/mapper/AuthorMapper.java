@@ -9,5 +9,7 @@ public interface AuthorMapper {
 	public void insert(AuthorVO vo);
 
 	public List<AuthorVO> readAuthsByUid(String uid);
+
+	
 	
 }

@@ -118,6 +118,13 @@ public class MemberController {
 		return "/member/authList";
 	}
 	
+	@RequestMapping(value = "/getMemberAuths", method = RequestMethod.POST)
+	public String insertAuthByUid(AuthorVO vo) {
+		service.insertAuthByUid(vo);
+		return "redirect:/member/getMemberAuths?uid="+vo.getUid();
+	}
+	
+	
 }
 
 

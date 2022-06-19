@@ -82,6 +82,12 @@ public class MemberServiceImpl implements MemberService {
 		
 		return list;
 	}
+
+	@Override
+	public void insertAuthByUid(AuthorVO vo) {
+		authMapper.insert(vo);
+		
+	}
 	
 	
 

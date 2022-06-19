@@ -23,4 +23,8 @@ public interface MemberService {
 	public int getListWithCnt(MemberCriteria cri);
 
 	public List<AuthorVO> readAuthsByUid(String uid);
+
+	public void insertAuthByUid(AuthorVO vo);
+
+	
 }

@@ -60,11 +60,11 @@
 
 				<div class="form-group m-b-xl">
 					<div class="checkbox checkbox-primary">
-						<input type="checkbox" id="keep_me_logged_in" /> <label
-							for="keep_me_logged_in">Keep me signed in</label>
+						<input type="checkbox" id="keep_me_logged_in" name="remember-me"/> <label
+							for="keep_me_logged_in"> 로그인 유지 </label>
 					</div>
 				</div>
-				<input type="submit" class="btn btn-primary" value="SING IN">
+				<input type="submit" class="btn btn-primary" value="SIGN IN">
 
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />

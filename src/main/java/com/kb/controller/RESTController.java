@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kb.domain.AuthorVO;
 import com.kb.domain.MemberVO;
 import com.kb.domain.SampleVO;
 import com.kb.service.MemberService;
@@ -105,11 +106,24 @@ public class RESTController {
 	 * /members/{id}+body(json 데이터 등) DELETE [DELETE] /member/{id}
 	 */
 	// CREATE [POST] /members/new
-	@RequestMapping(value = "/members/new", method = { RequestMethod.GET, RequestMethod.POST })
-	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "/members/new", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseStatus(HttpStatus.CREATED)
 	public String membersNew(@RequestBody MemberVO member) {
 		log.info(member);
 		System.out.println(member);
+		
+		
+		List<AuthorVO> list = new ArrayList<AuthorVO>();
+		
+		AuthorVO authorvo = new AuthorVO();
+		authorvo.setUid(member.getUid());
+		authorvo.setAuthority("ROLE_MEMBER");
+		
+		list.add(authorvo);
+		
+		member.setAuthList(list);
+		
+		
 		service.register(member);
 		return "OK";
 	}

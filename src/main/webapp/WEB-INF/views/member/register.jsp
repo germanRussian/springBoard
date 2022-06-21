@@ -73,13 +73,18 @@ $(document).ready(function(){
 		e.preventDefault();
 		
 		let uname = $("#uname").val();
+		let schoolname = $("#schoolname").val();
+		let gradeclass = $("#gradeclass").val();
 		let uid = $("#uid").val();
 		let upw = $("#upw").val();
+		let route = $("#route").val();
+		let boardingplace = $("#boardingplace").val();
 		
 		$.ajax({
 			type: "POST",
 			url: '/data/members/new',	// form을 전송할 실제 파일경로
-			data: JSON.stringify({uname:uname, uid:uid, upw:upw}),
+			data: JSON.stringify({uname:uname, schoolname:schoolname, gradeclass:gradeclass, 
+				uid:uid, upw:upw, route:route, boardingplace:boardingplace}),
 			contentType:"application/json; charset=utf-8",
 			beforeSend : function() {
 				// 전송 전 실행 코드

@@ -11,9 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kb.domain.MemberVO;
 import com.kb.domain.SampleVO;
 
 import lombok.extern.log4j.Log4j;
@@ -86,6 +89,19 @@ public class RESTController {
 			, @PathVariable("pid") Integer pid) {
 		return new String[] {"category:" + cat, "productid: " + pid};
 	}
+	
+	/**
+	 * CREATE [POST] /members/new
+	 * READ [GET] /members/{id}
+	 * UPDATE [PUT] /members/{id}+body(json 데이터 등)
+	 * DELETE [DELETE] /member/{id}
+	 */
+	
+	@PostMapping("/members/new")
+	public void membersNew(@RequestBody MemberVO member) {
+		log.info(member); 
+	}
+	
 			
 			
 }

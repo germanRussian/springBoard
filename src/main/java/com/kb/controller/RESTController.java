@@ -5,20 +5,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kb.domain.MemberVO;
 import com.kb.domain.SampleVO;
+import com.kb.service.MemberService;
+import com.kb.service.MemberServiceImpl;
 
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @RestController
@@ -26,6 +34,9 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/data/*")
 @Log4j
 public class RESTController {
+
+	@Setter(onMethod_ = @Autowired)
+	MemberService service;
 
 	/**
 	 * 단순문자
@@ -70,38 +81,57 @@ public class RESTController {
 	/**
 	 * ResponseEntity 타입
 	 */
-	@GetMapping(value = "/check", params = {"height","weight"})
-	public ResponseEntity<SampleVO> check(Double height, Double weight){
-		SampleVO vo = new SampleVO(0, ""+height, ""+weight);
-		
+	@GetMapping(value = "/check", params = { "height", "weight" })
+	public ResponseEntity<SampleVO> check(Double height, Double weight) {
+		SampleVO vo = new SampleVO(0, "" + height, "" + weight);
+
 		ResponseEntity<SampleVO> result = null;
-		
-		if(height < 150) {
+
+		if (height < 150) {
 			result = ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(vo);
 		} else {
 			result = ResponseEntity.status(HttpStatus.OK).body(vo);
 		}
 		return result;
 	}
-	
+
 	@GetMapping("/product/{cat}/{pid}")
-	public String[] getPath(@PathVariable("cat") String cat
-			, @PathVariable("pid") Integer pid) {
-		return new String[] {"category:" + cat, "productid: " + pid};
+	public String[] getPath(@PathVariable("cat") String cat, @PathVariable("pid") Integer pid) {
+		return new String[] { "category:" + cat, "productid: " + pid };
 	}
-	
+
 	/**
-	 * CREATE [POST] /members/new
-	 * READ [GET] /members/{id}
-	 * UPDATE [PUT] /members/{id}+body(json 데이터 등)
-	 * DELETE [DELETE] /member/{id}
+	 * CREATE [POST] /members/new READ [GET] /members/{id} UPDATE [PUT]
+	 * /members/{id}+body(json 데이터 등) DELETE [DELETE] /member/{id}
 	 */
-	
-	@PostMapping("/members/new")
-	public void membersNew(@RequestBody MemberVO member) {
-		log.info(member); 
+	// CREATE [POST] /members/new
+	@RequestMapping(value = "/members/new", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseStatus(HttpStatus.CREATED)
+	public String membersNew(@RequestBody MemberVO member) {
+		log.info(member);
+		System.out.println(member);
+		service.register(member);
+		return "OK";
 	}
-	
-			
-			
+
+	// READ [GET] /members/{id}
+	@GetMapping("/members/{num}")
+	public MemberVO read(@PathVariable("num") Integer num) {
+
+		return service.get(num);
+	}
+
+	// UPDATE [PUT] /members/{id}+body(json 데이터 등)
+	@PutMapping("/members/{num}")
+	public boolean update(@PathVariable("num") Integer num, @RequestBody MemberVO member) {
+		member.setNum(num);
+		return service.modify(member);
+	}
+
+	// DELETE [DELETE] /member/{id}
+	@DeleteMapping("/member/{num}")
+	public boolean delete(@PathVariable("num") Integer num) {
+
+		return service.remove(num);
+	}
 }

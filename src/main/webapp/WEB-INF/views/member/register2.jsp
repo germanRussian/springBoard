@@ -13,6 +13,9 @@
 <!-- END column -->
 
 
+<!-- 백업 파일 -->
+
+
 <div class="col-md-12">
 	<div class="widget p-lg">
 		<h4 class="m-b-lg">Member Register</h4>
@@ -21,11 +24,12 @@
 		</p>
 
 		<div class="panel-body">
-			<form method="post" action="" id="tmpSendFrm">
+			<form method="post" action="">
 				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}" /> <input type="hidden" name="authority"
-					value="ROLE_MEMBER" />
-
+					value="${_csrf.token}" />
+				<input type="hidden" name="authority"
+					value="ROLE_MEMBER" />	
+					
 				<div class="form-group">
 					<label>회원명</label><input type="text" name="uname" id="uname"
 						class="form-control" value="" required="required">
@@ -56,7 +60,7 @@
 						required="required">
 				</div>
 				<div class="form-group">
-					<button type="submit" id="submit" class="btn btn-default">회원가입</button>
+					<button type="submit" class="btn btn-default">회원가입</button>
 					<button type="button" class="btn btn-default">취소</button>
 				</div>
 			</form>
@@ -65,46 +69,6 @@
 	<!-- .widget -->
 </div>
 <!-- END column -->
-
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#submit").on("click", function(e) {
-			e.preventDefault();
-			// Get form
-			var form = $('#tmpSendFrm')[0];
-
-			// Create an FormData object 
-			var data = new FormData(form);
-
-			
-
-			$.ajax({
-				type : "POST",
-				//enctype : 'multipart/form-data',
-				url : '/data/members/new', // form을 전송할 실제 파일경로
-				data : data,
-				processData : false,
-				contentType : false,
-				cache : false,
-				timeout : 600000,
-				beforeSend : function() {
-					// 전송 전 실행 코드
-				},
-				success : function(data) {
-					// 전송 후 성공 시 실행 코드
-					location.href="/member/list";
-				},
-				error : function(e) {
-					// 전송 후 에러 발생 시 실행 코드
-					console.log("ERROR : ", e);
-				}
-			});
-		});
-	});
-</script>
-
-
 
 <!-- JSP 액션태그 include -->
 <jsp:include page="../includes/footer.jsp"></jsp:include>
